@@ -20,4 +20,4 @@ rich==13.3.5
 virtualenv==20.23.1
 Werkzeug==2.2.3
 gunicorn==21.2.0
-python-dotenv==1.0.0
+python-dotenv==0.21.1
