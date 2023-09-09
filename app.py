@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 myClient = con()
-myCol = myClient['appStore']
+myCol = myClient['apps']
 
 #error function
 @app.errorhandler(404)

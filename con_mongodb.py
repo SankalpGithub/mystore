@@ -8,6 +8,6 @@ def con():
     try:
         myclient = pymongo.MongoClient(os.getenv("connString"))
         print("MongoDB connected successfully")
-        return myclient["Myapps"]
+        return myclient["mystore"]
     except:
         print("Error Connecting Database")
