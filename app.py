@@ -22,9 +22,9 @@ def postData():
     _json = request.json
     name = _json['appName']
     app_description = _json['description']
-    app_icon = _json['app_icon']
-    if name and app_description and request.method == 'POST':
-        myCol.insert_one({'appName': name, 'app_description': app_description, 'app_icon': app_icon}) 
+    category = _json['category']
+    if name and app_description  and  category and request.method == 'POST':
+        myCol.insert_one({'appName': name, 'app_description': app_description, 'category':category,}) 
         resp = jsonify('user added successfully')
         resp.status_code = 200        
         return resp
@@ -35,13 +35,21 @@ def postData():
 def getAllData():
     users =  myCol.find()
     resp = dumps(users)
-    return resp
+    return jsonyify(resp)
+
+# #route to post image and save it in upload folder in flask
+# @app.route('/upload', methods=['POST'])
+# def upload():
+#     if request.method == 'POST':
+#         f = request.files['file']
+#         f.save('assets/images/'+f.filename)
+#         return 'upload successfully'
 
 @app.route('/download_apk')
 def download_apk():
     # Specify the path to your APK file
     apk = request.args.get('apk')
-    apk_path = 'assets/apks/'+apk+'.apk'
+    apk_path = 'assets/'+apk+'/file/'+apk+'.apk'
     
     # Define the desired filename for the downloaded APK
     apk_filename = apk+'.apk'
@@ -51,9 +59,9 @@ def download_apk():
 
 @app.route('/image')
 def apk_image():
-    image = request.args.get('image')
+    apk = request.args.get('image')
     # Specify the path to your APK image file
-    image_path = 'assets/images/'+image+'.png'
+    image_path = 'assets/'+apk+'/images/'+apk+'.png'
     
     # Use Flask's send_file function to send the image for display
     return send_file(image_path, mimetype='image/png')
