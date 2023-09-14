@@ -16,26 +16,34 @@ def not_found(error = None):
     resp = jsonify(message)
     resp.status_code = 404
     return resp
+
 #create user by post method
 @app.route('/postData',methods=['POST'])
 def postData():
     _json = request.json
-    name = _json['appName']
+    name = _json['name']
     app_description = _json['description']
     category = _json['category']
-    if name and app_description  and  category and request.method == 'POST':
-        myCol.insert_one({'appName': name, 'app_description': app_description, 'category':category,}) 
-        resp = jsonify('user added successfully')
-        resp.status_code = 200        
+    image = _json['img_url']
+    apk = _json['apk_url']
+    if name and app_description  and  category and image and apk and request.method == 'POST':
+        myCol.insert_one({'name': name, 'description': app_description, 'category':category, 'img_url': image, "apk_url": apk}) 
+        resp = jsonify('app added successfully')
+        resp.status_code = 200
         return resp
     else:
         return not_found()
     
 @app.route('/',methods=['GET'])
 def getAllData():
-    users =  myCol.find()
-    resp = dumps(users)
-    return jsonyify(resp)
+    try:
+        users =  myCol.find()
+        resp = dumps(users)
+        print(resp)
+        # resp = users
+        return resp
+    except:
+        not_found()
 
 # #route to post image and save it in upload folder in flask
 # @app.route('/upload', methods=['POST'])
@@ -45,7 +53,7 @@ def getAllData():
 #         f.save('assets/images/'+f.filename)
 #         return 'upload successfully'
 
-@app.route('/download_apk')
+@app.route('/apk')
 def download_apk():
     # Specify the path to your APK file
     apk = request.args.get('apk')
