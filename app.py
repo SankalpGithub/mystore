@@ -75,4 +75,4 @@ def apk_image():
     return send_file(image_path, mimetype='image/png')
 
 if __name__ == "__main__":
-    app.run(port=8080) 
+    app.run() 
