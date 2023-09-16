@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from con_mongodb import con
-from bson.json_util import dumps
-from bson.objectid import ObjectId
+
 
 app = Flask(__name__)
 myClient = con()
@@ -26,32 +25,27 @@ def postData():
     category = _json['category']
     image = _json['img_url']
     apk = _json['apk_url']
-    if name and app_description  and  category and image and apk and request.method == 'POST':
-        myCol.insert_one({'name': name, 'description': app_description, 'category':category, 'img_url': image, "apk_url": apk}) 
+    countD = myCol.count_documents({})
+    if id and name and app_description  and  category and image and apk and request.method == 'POST':
+        myCol.insert_one({'_id': countD, 'name': name, 'description': app_description, 'category':category, 'img_url': image, "apk_url": apk}) 
         resp = jsonify('app added successfully')
         resp.status_code = 200
         return resp
     else:
         return not_found()
     
+
 @app.route('/',methods=['GET'])
 def getAllData():
     try:
-        users =  myCol.find()
-        resp = dumps(users)
-        print(resp)
-        # resp = users
+        users =  list(myCol.find())
+        resp = jsonify(users)
+        resp.status_code = 200
+        # resp = dump(users)
         return resp
     except:
         not_found()
-
-# #route to post image and save it in upload folder in flask
-# @app.route('/upload', methods=['POST'])
-# def upload():
-#     if request.method == 'POST':
-#         f = request.files['file']
-#         f.save('assets/images/'+f.filename)
-#         return 'upload successfully'
+        
 
 @app.route('/apk')
 def download_apk():
