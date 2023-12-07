@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Submission Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>App Submission Form</h2>
+
+    <form id="appSubmissionForm" enctype="multipart/form-data">
+        <label for="appName">App Name:</label>
+        <input type="text" id="appName" name="appName" required>
+
+        <label for="appDescription">App Description:</label>
+        <textarea id="appDescription" name="appDescription" rows="4" required></textarea>
+
+        <label for="iconImage">Icon Image:</label>
+        <input type="file" id="iconImage" name="iconImage" accept="image/*" required>
+
+        <label for="appImages">App Images:</label>
+        <input type="file" id="appImages" name="appImages" accept="image/*" multiple required>
+
+        <label for="appApk">App APK File:</label>
+        <input type="file" id="appApk" name="appApk" accept=".apk" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        var root_url = "https://sankalp-gaikwad.onrender.com"
+        async function submitForm() {
+    var form = document.getElementById('appSubmissionForm');
+    var app_name = document.getElementById('appName').value;
+    var app_description = document.getElementById('appDescription').value;
+    var app_icon = document.getElementById('iconImage').files;
+    var app_images = document.getElementById('appImages').files;
+    var app_apk = document.getElementById('appApk').files
+
+    // Make a POST request to your server endpoint
+    var data = new FormData();
+    data.append('app_name', app_name);
+    data.append('app_description', app_description);
+    
+    // Append app_icon files
+    for (var i = 0; i < app_icon.length; i++) {
+        data.append('app_icon', app_icon[i]);
+    }
+
+    // Append app_images files
+    for (var i = 0; i < app_images.length; i++) {
+        data.append('app_images', app_images[i]);
+    }
+
+    for (var i = 0; i < app_apk.length; i++) {
+        data.append('app_apk', app_apk[i]);
+    }
+
+    
+
+    var url = root_url+'/upload';  // Updated endpoint
+    await fetch(url, {
+        method: 'POST',
+        body: data,
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then((data) => {
+        alert(data)
+        window.location.reload
+    })
+    .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+    </script>
+
+</body>
+</html>
