@@ -4,7 +4,7 @@ import os
 load_dotenv()
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate(os.getenv("firebase_key_path"))
+cred = credentials.Certificate(os.getenv("firebase_key"))
 initialize_app(cred, {'storageBucket': os.getenv("firebase_app_id")})
 
 bucket = storage.bucket()
