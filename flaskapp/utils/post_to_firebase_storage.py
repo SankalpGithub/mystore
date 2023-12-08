@@ -9,11 +9,11 @@ initialize_app(cred, {'storageBucket': os.getenv("firebase_app_id")})
 
 bucket = storage.bucket()
 
-def upload_file(file, remote_path):
+def upload_file(file, remote_path, content_type):
     try:
         # Upload the file
         blob = bucket.blob(remote_path)
-        blob.upload_from_file(file)
+        blob.upload_from_file(file, content_type=content_type)
         download_url = blob.public_url
         return download_url
     except:
