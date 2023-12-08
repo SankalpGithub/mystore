@@ -23,7 +23,7 @@ def upload():
         if 'app_icon' in request.files:
             app_icon = request.files['app_icon']
             app_icon_extension = app_icon.filename.rsplit('.', 1)[1].lower()
-            app_icon_url = upload_file(app_icon, app_name+"/icon/"+app_name+"."+app_icon_extension, 'image/'+app_image_url)
+            app_icon_url = upload_file(app_icon, app_name+"/icon/"+app_name+"."+app_icon_extension, 'image/'+app_icon_extension)
         else:
             return jsonify("app_icon not found!"),404
 
@@ -33,7 +33,7 @@ def upload():
             i = 0
             for x in app_images:
                 app_images_extension = x.filename.rsplit('.', 1)[1].lower()
-                app_image_url = upload_file(x, app_name+"/images/"+app_name+str(i)+"."+app_images_extension, 'image/'+app_image_url)
+                app_image_url = upload_file(x, app_name+"/images/"+app_name+str(i)+"."+app_images_extension, 'image/'+app_images_extension)
                 app_images_urls.append(app_image_url)
                 i += 1
         else:
