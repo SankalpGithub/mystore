@@ -45,8 +45,9 @@ def upload():
             app_apk = request.files['app_apk']
             app_apk_extension = app_apk.filename.rsplit('.', 1)[1].lower()
             if app_apk_extension == "apk":
-                app_apk_url = upload_file(app_apk, app_name+"/apk/"+app_name+".apk", "image/"+app_image_url, 'application/vnd.android.package-archive')
+                app_apk_url = upload_file(app_apk, app_name+"/apk/"+app_name+".apk", 'BlueStacks.Apk')
             else:
+                delete_app(app_name)
                 return jsonify("upload apk file, submitted file was not an apk file"),404
         else:
             delete_app(app_name)

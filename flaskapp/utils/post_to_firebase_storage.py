@@ -14,10 +14,13 @@ def upload_file(file, remote_path, content_type):
         # Upload the file
         blob = bucket.blob(remote_path)
         blob.upload_from_file(file, content_type=content_type)
+        blob.make_public()
+
+        # Get the public URL
         download_url = blob.public_url
         return download_url
-    except:
-        return "faild to upload"
+    except Exception as e:
+        return f'Failed to upload: {str(e)}'
 
 def delete_app(folder_path):
     try:
