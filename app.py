@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flaskapp.routes import app_submition
 
 
@@ -10,7 +10,7 @@ cors = CORS(app)
 
 @app.route('/')
 def host():
-    return 'hello world'
+    return render_template("index.html")
 
 #create user by post method
 @app.route('/upload',methods=['POST'])
